@@ -3,6 +3,9 @@
 pragma solidity ^0.8.18;
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
+/// @title Processu de vote décentraliser
+/// @author Alyra
+/// @notice Ce contrat peut être utilisé pour administrer un processu de vote et participer à un vote
 contract Voting is Ownable {
     uint public winningProposalID;
 
