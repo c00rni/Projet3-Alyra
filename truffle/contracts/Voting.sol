@@ -105,6 +105,13 @@ contract Voting is Ownable {
         voters[msg.sender].hasVoted = true;
         proposalsArray[_id].voteCount++;
 
+        if (
+            proposalsArray[_id].voteCount >
+            proposalsArray[winningProposalID].voteCount
+        ) {
+            winningProposalID = _id;
+        }
+
         emit Voted(msg.sender, _id);
     }
 
