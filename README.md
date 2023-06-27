@@ -6,7 +6,7 @@ Application decentraliser permetant d'administrer et particier à un vote.
 
 - [x] Créer un github pour le projet
 - [ ] Commenter le smartContrat en natspec
-- [ ] Corriger la faille DOS gas limit
+- [x] Corriger la faille DOS gas limit
 - [ ] Realiser le front en React
   - [ ] Affichage du compte utilisé
   - [ ] Affichage des proposals
@@ -20,17 +20,18 @@ Application decentraliser permetant d'administrer et particier à un vote.
 
 First ensure you are in an empty directory.
 
-Run the `unbox` command using 1 of 2 ways.
-
 ```sh
-# Install Truffle globally and run `truffle unbox`
-$ npm install -g truffle
-$ truffle unbox react
+# Install depedencies
+$ cd truffle
+$ npm install
+$ cd ..
 ```
 
+Start ganach.
+
 ```sh
-# Alternatively, run `truffle unbox` via npx
-$ npx truffle unbox react
+# lanch ganache in a new terminal
+$ ganache
 ```
 
 Start the react dev server.
