@@ -1,6 +1,20 @@
-# React Truffle Box
+# Projet3-Alyra
 
-This box comes with everything you need to start using Truffle to write, compile, test, and deploy smart contracts, and interact with them from a React app.
+Application decentraliser permetant d'administrer et particier à un vote.
+
+## To-do list
+
+- [x] Créer un github pour le projet
+- [ ] Commenter le smartContrat en natspec
+- [ ] Corriger la faille DOS gas limit
+- [ ] Realiser le front en React
+  - [ ] Affichage du compte utilisé
+  - [ ] Affichage des proposals
+  - [ ] Affichage adapter au compte utilisé
+  - [ ] Travaille l'esthétique du front
+- [ ] Faire une video de presentation de l'applicaiton de 5 mins sur ganache
+- [ ] Deployer l'application sur un réseau de test
+- [ ] Faire un readme contenenant un lien vers l'application deploiyé et la video
 
 ## Installation
 
@@ -30,11 +44,10 @@ From there, follow the instructions on the hosted React app. It will walk you th
 
 ## FAQ
 
-- __How do I use this with Ganache (or any other network)?__
+- **How do I use this with Ganache (or any other network)?**
 
   The Truffle project is set to deploy to Ganache by default. If you'd like to change this, it's as easy as modifying the Truffle config file! Check out [our documentation on adding network configurations](https://trufflesuite.com/docs/truffle/reference/configuration/#networks). From there, you can run `truffle migrate` pointed to another network, restart the React dev server, and see the change take place.
 
-- __Where can I find more resources?__
+- **Where can I find more resources?**
 
   This Box is a sweet combo of [Truffle](https://trufflesuite.com) and [Webpack](https://webpack.js.org). Either one would be a great place to start!
-# Projet3-Alyra
