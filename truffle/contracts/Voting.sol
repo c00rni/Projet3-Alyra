@@ -5,7 +5,7 @@ import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
 contract Voting is Ownable {
     uint public winningProposalID;
-
+    //  struct pour voter
     struct Voter {
         bool isRegistered;
         bool hasVoted;
