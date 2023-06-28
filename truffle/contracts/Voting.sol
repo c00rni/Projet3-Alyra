@@ -10,6 +10,7 @@ contract Voting is Ownable {
     /// @notice enregistre l'identifiant du
     uint public winningProposalID;
 
+    /// @notice Structure de donnée d'un votant
     struct Voter {
         bool isRegistered;
         bool hasVoted;
