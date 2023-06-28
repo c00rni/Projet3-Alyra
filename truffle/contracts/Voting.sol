@@ -7,19 +7,23 @@ import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 /// @author Alyra
 /// @notice Ce contrat peut être utilisé pour administrer un processu de vote et participer à un vote
 contract Voting is Ownable {
+    /// @notice enregistre l'identifiant du
     uint public winningProposalID;
 
+    /// @notice Structure de donnée d'un votant
     struct Voter {
         bool isRegistered;
         bool hasVoted;
         uint votedProposalId;
     }
 
+    /// @notice Structure de donnée d'une proposition de vote
     struct Proposal {
         string description;
         uint voteCount;
     }
 
+    /// @notice Noms des etats d'un vote
     enum WorkflowStatus {
         RegisteringVoters,
         ProposalsRegistrationStarted,
@@ -29,18 +33,37 @@ contract Voting is Ownable {
         VotesTallied
     }
 
+    /// @dev Status actuel du contrat
     WorkflowStatus public workflowStatus;
+
+    /// @notice Liste des propositions soumissent pour voter
     Proposal[] proposalsArray;
+
+    /// @notice Accoccie les addresses publique des votants au information enregistrés sur la blockchain
     mapping(address => Voter) voters;
 
+    /// @notice Evenement emit aprés un vote
+    /// @param voterAddress Renvoie l'adresse publique du votant
     event VoterRegistered(address voterAddress);
+
+    /// @notice Evenement emit après un changement de status du contrat
+    /// @param previousStatus Status precedent
+    /// @param newStatus Nouveau status
     event WorkflowStatusChange(
         WorkflowStatus previousStatus,
         WorkflowStatus newStatus
     );
+
+    /// @notice Evenement emit après l'enregistrement d'une proposition
+    /// @param proposalId identifiant de la proposition
     event ProposalRegistered(uint proposalId);
+
+    /// @notice Evenement emit après l'enregistrement d'un vote
+    /// @param voter L'adresse public du votant
+    /// @param proposalId Identifiant de la proposition
     event Voted(address voter, uint proposalId);
 
+    /// @notice Verifie que l'utilisateur est bien un votant enregistrer
     modifier onlyVoters() {
         require(voters[msg.sender].isRegistered, "You're not a voter");
         _;
@@ -50,12 +73,18 @@ contract Voting is Ownable {
 
     // ::::::::::::: GETTERS ::::::::::::: //
 
+    /// @notice Recupère la structure donnée d'un votant enregistrer
+    /// @param _addr Adresse publique
+    /// @return Voter Structure de donnée "Voter"
     function getVoter(
         address _addr
     ) external view onlyVoters returns (Voter memory) {
         return voters[_addr];
     }
 
+    /// @notice Récupère la structure de donnée d'un votant engistrer
+    /// @param _id Identifiant d'une proposition
+    /// @return Proposal La structure de donnée d'une proposition
     function getOneProposal(
         uint _id
     ) external view onlyVoters returns (Proposal memory) {
@@ -64,6 +93,9 @@ contract Voting is Ownable {
 
     // ::::::::::::: REGISTRATION ::::::::::::: //
 
+    /// @notice Enregistre l'adresse publique d'un votant
+    /// @param _addr Adresse publique
+    /// @dev L'utiilsateur doit être le createur du contrat
     function addVoter(address _addr) external onlyOwner {
         require(
             workflowStatus == WorkflowStatus.RegisteringVoters,
@@ -77,6 +109,9 @@ contract Voting is Ownable {
 
     // ::::::::::::: PROPOSAL ::::::::::::: //
 
+    /// @notice Enregistre une propisition qui pourra être voter
+    /// @param _desc Decription de la proposition
+    /// @dev L'utiisateur doit avoir une adresses publique enregistrer
     function addProposal(string calldata _desc) external onlyVoters {
         require(
             workflowStatus == WorkflowStatus.ProposalsRegistrationStarted,
@@ -96,6 +131,10 @@ contract Voting is Ownable {
 
     // ::::::::::::: VOTE ::::::::::::: //
 
+    /// @notice Permet au votant de définir leurs vote
+    /// @param _id L'identfiant d'une proposition enregistrer
+    /// @dev L'utiisateur doit avoir une adresses publique enregistrer
+    /// @dev L'identifiant de propisition doit être enregistrer
     function setVote(uint _id) external onlyVoters {
         require(
             workflowStatus == WorkflowStatus.VotingSessionStarted,
@@ -120,6 +159,9 @@ contract Voting is Ownable {
 
     // ::::::::::::: STATE ::::::::::::: //
 
+    /// @notice Debut de la phase d'enregistremetn des propositions à voter
+    /// @dev L'adresse publique de l'utilisateur être celle de l'administrateur
+    /// @dev Le status precedent doit être la phase d'enregistrement de votants
     function startProposalsRegistering() external onlyOwner {
         require(
             workflowStatus == WorkflowStatus.RegisteringVoters,
@@ -137,6 +179,9 @@ contract Voting is Ownable {
         );
     }
 
+    /// @notice Fin de la phase d'enregistremetn des propositions à voter
+    /// @dev L'adresse publique de l'utilisateur être celle de l'administrateur
+    /// @dev Le status precedent doit être la phase d'enregistrement des propositions de vote
     function endProposalsRegistering() external onlyOwner {
         require(
             workflowStatus == WorkflowStatus.ProposalsRegistrationStarted,
@@ -149,6 +194,9 @@ contract Voting is Ownable {
         );
     }
 
+    /// @notice Debut de la phase d'enregistrement des votes
+    /// @dev L'adresse publique de l'utilisateur être celle de l'administrateur
+    /// @dev Le status precedent doit être la phase de fin d'enregistrement des votes
     function startVotingSession() external onlyOwner {
         require(
             workflowStatus == WorkflowStatus.ProposalsRegistrationEnded,
@@ -161,6 +209,9 @@ contract Voting is Ownable {
         );
     }
 
+    /// @notice Fin de la phase d'enregistrement des votes
+    /// @dev L'adresse publique de l'utilisateur être celle de l'administrateur
+    /// @dev Le status precedent doit être la phase d'enregistrement de votes
     function endVotingSession() external onlyOwner {
         require(
             workflowStatus == WorkflowStatus.VotingSessionStarted,
@@ -173,6 +224,9 @@ contract Voting is Ownable {
         );
     }
 
+    /// @notice Debut de la phase de dépoullement
+    /// @dev L'adresse publique de l'utilisateur être celle de l'administrateur
+    /// @dev Le status precedent doit être la phase de fin d'enregistrement des votes
     function tallyVotes() external onlyOwner {
         require(
             workflowStatus == WorkflowStatus.VotingSessionEnded,
