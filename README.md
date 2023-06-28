@@ -5,12 +5,16 @@ Application decentraliser permetant d'administrer et particier à un vote.
 ## To-do list
 
 - [x] Créer un github pour le projet
-- [ ] Commenter le smartContrat en natspec
+- [x] Commenter le smartContrat en natspec
 - [x] Corriger la faille DOS gas limit
+- [ ] Optimisation du contrat grace au evenement
 - [ ] Realiser le front en React
-  - [ ] Affichage du compte utilisé
-  - [ ] Affichage des proposals
-  - [ ] Affichage adapter au compte utilisé
+  - [ ] Créer les composants de l'administrateur
+  - [ ] Créer les composants des votants
+  - [ ] Afficher les compostant des votants s'ils sont l'adresses publique de l'uitilisateur est valide
+  - [ ] Afficher les compostant de l'administreur si l'adresse publique de l'uitilisateur est valide
+  - [ ] Afficher tous les propositions enregistrer grace aux events
+  - [ ] Afficher tous les votant enregistrer grace aux events
   - [ ] Travaille l'esthétique du front
 - [ ] Faire une video de presentation de l'applicaiton de 5 mins sur ganache
 - [ ] Deployer l'application sur un réseau de test
@@ -38,6 +42,7 @@ Start the react dev server.
 
 ```sh
 $ cd client
+$ npm install
 $ npm start
 ```
 
