@@ -1,7 +1,7 @@
 import { EthProvider } from "./contexts/EthContext";
 import Intro from "./components/Intro/";
-import Demo from "./components/Demo";
 import Footer from "./components/Footer";
+import Admin from "./components/Admin";
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         <div className="container">
           <Intro />
           <hr />
-          <Demo />
+          <Admin />
           <hr />
           <Footer />
         </div>
