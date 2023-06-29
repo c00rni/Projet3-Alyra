@@ -9,7 +9,7 @@ Application decentraliser permetant d'administrer et particier à un vote.
 - [x] Corriger la faille DOS gas limit
 - [ ] Optimisation du contrat grace au evenement
 - [ ] Realiser le front en React
-  - [ ] Créer les composants de l'administrateur
+  - [x] Créer les composants de l'administrateur
   - [ ] Créer les composants des votants
   - [ ] Afficher les compostant des votants s'ils sont l'adresses publique de l'uitilisateur est valide
   - [ ] Afficher les compostant de l'administreur si l'adresse publique de l'uitilisateur est valide
