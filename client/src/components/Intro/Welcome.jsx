@@ -26,7 +26,7 @@ function Welcome() {
         });
         setEventValue(oldie);
  
-        await contract.events.valueChanged({fromBlock:"earliest"})
+        await contract.events.WorkflowStatusChange({fromBlock:"earliest"})
         .on('data', event => {
           let lesevents = status[event.returnValues.newStatus];
           setEventValue(lesevents);
