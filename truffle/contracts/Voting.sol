@@ -63,6 +63,10 @@ contract Voting is Ownable {
     /// @param proposalId Identifiant de la proposition
     event Voted(address voter, uint proposalId);
 
+    /// @notice Evenement emit à l'annonce d'une proposition gagante
+    /// @param proposal Identifiant de la proposition
+    event WinnerAnnonced(uint proposal);
+
     /// @notice Verifie que l'utilisateur est bien un votant enregistrer
     modifier onlyVoters() {
         require(voters[msg.sender].isRegistered, "You're not a voter");
@@ -242,6 +246,7 @@ contract Voting is Ownable {
             }
         }
         winningProposalID = _winningProposalId;
+        emit WinnerAnnonced(_winningProposalId);
 
         workflowStatus = WorkflowStatus.VotesTallied;
         emit WorkflowStatusChange(
