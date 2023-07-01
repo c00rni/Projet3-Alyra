@@ -2,33 +2,33 @@ import { useEffect, useState } from "react";
 import useEth from "../../contexts/EthContext/useEth";
 
 function Welcome() {
+  const { state: { contract } } = useEth();
+  
+  const status = ["RegisteringVoters",
+  "ProposalsRegistrationStarted",
+  "ProposalsRegistrationEnded",
+  "VotingSessionStarted",
+  "VotingSessionEnded",
+  "VotesTallied"];
+  
   const [EventValue, setEventValue] = useState("");
   
-  const { state: { contract } } = useEth();
-  const status = ["RegisteringVoters",
-    "ProposalsRegistrationStarted",
-    "ProposalsRegistrationEnded",
-    "VotingSessionStarted",
-    "VotingSessionEnded",
-    "VotesTallied"];
-
-
   useEffect(() => {
     (async function () {
  
-       let oldEvents= await contract.getPastEvents('WorkflowStatusChange', {
+       let oldWorkflowEvents= await contract.getPastEvents('WorkflowStatusChange', {
           fromBlock: 0,
           toBlock: 'latest'
         });
-        let oldie;
-        oldEvents.forEach(event => {
-            oldie = status[event.returnValues.newStatus];
+        let oldiEventWorkflow;
+        oldWorkflowEvents.forEach(event => {
+          oldiEventWorkflow = event.returnValues.newStatus;
         });
-        setEventValue(oldie);
+        setEventValue(oldiEventWorkflow);
  
         await contract.events.WorkflowStatusChange({fromBlock:"earliest"})
         .on('data', event => {
-          let lesevents = status[event.returnValues.newStatus];
+          let lesevents = event.returnValues.newStatus;
           setEventValue(lesevents);
         })          
         .on('changed', changed => console.log(changed))
@@ -39,7 +39,7 @@ function Welcome() {
 
   return (
     <div className="welcome">
-      <h1>Projet Voting (Stratus:{EventValue})</h1>
+      <h1>Projet Voting (Stratus:{status[EventValue]})</h1>
     </div>
   );
 }

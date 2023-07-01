@@ -56,7 +56,7 @@ contract Voting is Ownable {
 
     /// @notice Evenement emit après l'enregistrement d'une proposition
     /// @param proposalId identifiant de la proposition
-    event ProposalRegistered(uint proposalId);
+    event ProposalRegistered(uint proposalId, string description);
 
     /// @notice Evenement emit après l'enregistrement d'un vote
     /// @param voter L'adresse public du votant
@@ -126,7 +126,7 @@ contract Voting is Ownable {
         Proposal memory proposal;
         proposal.description = _desc;
         proposalsArray.push(proposal);
-        emit ProposalRegistered(proposalsArray.length - 1);
+        emit ProposalRegistered(proposalsArray.length - 1, _desc);
     }
 
     // ::::::::::::: VOTE ::::::::::::: //

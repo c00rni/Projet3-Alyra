@@ -4,7 +4,7 @@ import NoticeWrongNetwork from "./NoticeWrongNetwork";
 import UserComp from "./UserComp";
 
 
-function Admin() {
+function User() {
   const { state } = useEth();
 
   const voter =
@@ -23,4 +23,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default User;
