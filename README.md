@@ -7,13 +7,13 @@ Application decentraliser permetant d'administrer et particier à un vote.
 - [x] Créer un github pour le projet
 - [x] Commenter le smartContrat en natspec
 - [x] Corriger la faille DOS gas limit
-- [ ] Optimisation du contrat grace au evenement
+- [x] Optimisation du contrat grace au evenement
 - [ ] Realiser le front en React
   - [x] Créer les composants de l'administrateur
   - [ ] Créer les composants des votants
   - [ ] Afficher les compostant des votants s'ils sont l'adresses publique de l'uitilisateur est valide
   - [ ] Afficher les compostant de l'administreur si l'adresse publique de l'uitilisateur est valide
-  - [ ] Afficher tous les propositions enregistrer grace aux events
+  - [x] Afficher tous les propositions enregistrer grace aux events
   - [ ] Afficher tous les votant enregistrer grace aux events
   - [ ] Travaille l'esthétique du front
 - [ ] Faire une video de presentation de l'applicaiton de 5 mins sur ganache
