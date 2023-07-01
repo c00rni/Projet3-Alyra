@@ -1,9 +1,40 @@
 import useEth from "../../contexts/EthContext/useEth";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function AdminComp() {
   const { state: { contract, accounts } } = useEth();
   const [addressVoter, setVoter] = useState("");
+  const [addressRegistered, setRegistrationEvents] = useState([]);
+
+  let votants=[];
+
+  useEffect(() => {
+    (async function () {
+
+        await contract.events.VoterRegistered({fromBlock:"earliest"})
+        .on('data', event => {
+          votants.push({adresse: event.returnValues.voterAddress});
+          setRegistrationEvents(votants);
+        })          
+        .on('changed', changed => console.log(changed))
+        .on('error', err => console.log(err))
+        .on('connected', str => console.log(str))
+    })();
+  }, [contract])
+  
+  useEffect(() => {
+    (async function () {
+      votants=[];
+       let oldEvents= await contract.getPastEvents('VoterRegistered', {
+          fromBlock: 0,
+          toBlock: 'latest'
+        });
+        oldEvents.forEach(event => {
+          votants.push({adresse: event.returnValues.voterAddress});
+        });
+        setRegistrationEvents(votants);
+    })();
+  })
 
   const handleRegristrationTextChange = e => {
     setVoter(e.target.value);
@@ -78,6 +109,12 @@ function AdminComp() {
       <button onClick={startVotingSession}>Start Voting Session</button><br></br>
       <button onClick={endVotingSession}>End Voting Session</button><br></br>
       <button onClick={tallyVotes}>Tally Votes</button><br></br>
+      <h3>Adresses enregistrer:</h3>
+      <ul>
+        {addressRegistered.map((votant) => (
+          <li key={votant.adresse}>{votant.adresse}</li>
+        ))}
+      </ul>
     </div>
   );
 }

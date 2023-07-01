@@ -8,14 +8,14 @@ function UserComp() {
   const [proposalEvents, setEventValue] = useState([]);
   const [propositionGagnante, setPropositionGagante] = useState("PAS ENCORE DE GAGNANT");
 
+  const [WorkflowEvent, setWorkflowEvent] = useState();
+
   const status = ["RegisteringVoters",
   "ProposalsRegistrationStarted",
   "ProposalsRegistrationEnded",
   "VotingSessionStarted",
   "VotingSessionEnded",
   "VotesTallied"];
-
-  const [WorkflowEvent, setWorkflowEvent] = useState("RegisteringVoters");
 
   const handleTextChangeProposition = e => {
     setProposal(e.target.value);
@@ -29,6 +29,7 @@ function UserComp() {
 
   useEffect(() => {
     (async function () {
+
        let oldProposalEvents= await contract.getPastEvents('ProposalRegistered', {
           fromBlock: 0,
           toBlock: 'latest'
@@ -38,33 +39,6 @@ function UserComp() {
           oldiEventProposal.push({id: event.returnValues.proposalId, description: event.returnValues.description});
         });
         setEventValue(oldiEventProposal);
- 
-        await contract.events.ProposalRegistered({fromBlock:"earliest"})
-        .on('data', event => {
-          oldiEventProposal.push({id: event.returnValues.proposalId, description: event.returnValues.description});
-          setEventValue(oldiEventProposal);
-        })          
-        .on('changed', changed => console.log(changed))
-        .on('error', err => console.log(err))
-        .on('connected', str => console.log(str))
-
-        // Vote
-
-        let oldVoteEvents= await contract.getPastEvents('Voted', {
-          fromBlock: 0,
-          toBlock: 'latest'
-        });
-        oldVoteEvents.forEach(event => {
-          setVoteId(event.returnValues.proposalId);
-        });
-
-        await contract.events.Voted({fromBlock:"earliest"})
-        .on('data', event => {
-          setVoteId(event.returnValues.proposalId);
-        })          
-        .on('changed', changed => console.log(changed))
-        .on('error', err => console.log(err))
-        .on('connected', str => console.log(str))
 
         // Get Events
 
@@ -72,20 +46,11 @@ function UserComp() {
           fromBlock: 0,
           toBlock: 'latest'
         });
-        let oldiEventWorkflow;
+        let oldiEventWorkflow = status[0];
         oldWorkflowEvents.forEach(event => {
-          oldiEventWorkflow = event.returnValues.newStatus;
+          oldiEventWorkflow = status[event.returnValues.newStatus];
         });
         setWorkflowEvent(oldiEventWorkflow);
-  
-        await contract.events.WorkflowStatusChange({fromBlock:"earliest"})
-        .on('data', event => {
-          let lesevents = event.returnValues.newStatus;
-          setWorkflowEvent(lesevents);
-        })          
-        .on('changed', changed => console.log(changed))
-        .on('error', err => console.log(err))
-        .on('connected', str => console.log(str))
 
         // Get Gagnant
 
@@ -103,11 +68,42 @@ function UserComp() {
         .on('data', event => {
           let WinnerAnnonced = event.returnValues.proposal;
           setPropositionGagante(WinnerAnnonced);
-        })          
-        .on('changed', changed => console.log(changed))
-        .on('error', err => console.log(err))
-        .on('connected', str => console.log(str))
+        })
 
+    })();
+  })
+
+  useEffect(() => {
+    (async function () {
+        let oldiEventProposal=[];
+ 
+        await contract.events.ProposalRegistered({fromBlock:"latest"})
+        .on('data', event => {
+          oldiEventProposal.push({id: event.returnValues.proposalId, description: event.returnValues.description});
+          setEventValue(oldiEventProposal);
+        })
+
+        // Vote
+
+        await contract.events.Voted({fromBlock:"latest"})
+        .on('data', event => {
+          alert(`Vote accepté pour la proposition ${event.returnValues.proposalId}`);
+        })
+
+        // Get Events
+
+        await contract.events.WorkflowStatusChange({fromBlock:"latest"})
+        .on('data', event => {
+          let lesevents = status[event.returnValues.newStatus];
+          setWorkflowEvent(lesevents);
+        })
+
+        // Get Gagnant  
+        await contract.events.WinnerAnnonced({fromBlock:"latest"})
+        .on('data', event => {
+          let WinnerAnnonced = event.returnValues.proposal;
+          setPropositionGagante(WinnerAnnonced);
+        })
     })();
   }, [contract])
 
@@ -131,7 +127,7 @@ function UserComp() {
 
   return (
     <div>
-      <h2>Voting Page (Stratus:{status[WorkflowEvent]})</h2>
+      <h2>Voting Page (Status:{WorkflowEvent})</h2>
 
       <button onClick={registerProposal}>Proposer</button>
       <input
