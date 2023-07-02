@@ -6,35 +6,31 @@ function AdminComp() {
   const [addressVoter, setVoter] = useState("");
   const [addressRegistered, setRegistrationEvents] = useState([]);
 
-  let votants=[];
 
   useEffect(() => {
     (async function () {
-
-        await contract.events.VoterRegistered({fromBlock:"earliest"})
+      let votants = [];
+      await contract.events.VoterRegistered({ fromBlock: "earliest" })
         .on('data', event => {
-          votants.push({adresse: event.returnValues.voterAddress});
+          votants.push({ adresse: event.returnValues.voterAddress });
           setRegistrationEvents(votants);
-        })          
-        .on('changed', changed => console.log(changed))
-        .on('error', err => console.log(err))
-        .on('connected', str => console.log(str))
+        })
     })();
-  }, [contract])
-  
+  },)//[contract]
+
   useEffect(() => {
     (async function () {
-      votants=[];
-       let oldEvents= await contract.getPastEvents('VoterRegistered', {
-          fromBlock: 0,
-          toBlock: 'latest'
-        });
-        oldEvents.forEach(event => {
-          votants.push({adresse: event.returnValues.voterAddress});
-        });
-        setRegistrationEvents(votants);
+      let votants = [];
+      let oldEvents = await contract.getPastEvents('VoterRegistered', {
+        fromBlock: 0,
+        toBlock: 'latest'
+      });
+      oldEvents.forEach(event => {
+        votants.push({ adresse: event.returnValues.voterAddress });
+      });
+      setRegistrationEvents(votants);
     })();
-  },[contract])
+  },)//[contract]
 
   const handleRegristrationTextChange = e => {
     setVoter(e.target.value);
@@ -42,8 +38,7 @@ function AdminComp() {
 
   const registerVoter = async () => {
     try {
-      await contract.methods.addVoter(addressVoter).send({from: accounts[0]});
-      console.log(addressVoter);
+      await contract.methods.addVoter(addressVoter).send({ from: accounts[0] });
       // Dispatch an action or update state if needed
     } catch (err) {
       console.error(err);
@@ -96,43 +91,43 @@ function AdminComp() {
   }
 
   return (
-  <>
-    <h2 class="display-5">Admin panel</h2>
-      <div class="input-group input-group-lg">
-        <div class="input-group-prepend">
-          <button onClick={registerVoter}><span class="input-group-text" id="inputGroup-sizing-lg">Register Voter</span></button>
+    <>
+      <h2 className="display-5">Admin panel</h2>
+      <div className="input-group input-group-lg">
+        <div className="input-group-prepend">
+          <button onClick={registerVoter}><span className="input-group-text" id="inputGroup-sizing-lg">Register Voter</span></button>
         </div>
-        <input 
-            type="text" 
-            class="form-control" 
-            aria-label="Sizing example input" 
-            aria-describedby="inputGroup-sizing-lg"
-            placeholder="address"
-            onChange={handleRegristrationTextChange}
-            />
-            
-      {/* <button onClick={registerVoter}>Register Voter</button>
+        <input
+          type="text"
+          className="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-lg"
+          placeholder="address"
+          onChange={handleRegristrationTextChange}
+        />
+
+        {/* <button onClick={registerVoter}>Register Voter</button>
       <input
         type="text"
         placeholder="address"
         onChange={handleRegristrationTextChange}
       /><br></br> */}
       </div>
-      <br/>
-        <button type="button" class="btn btn-secondary btn-lg" onClick={startProposalsRegistering}>Start Proposals Registration</button><br/><br/>
-        <button type="button" class="btn btn-secondary btn-lg"  onClick={endProposalsRegistering}>End Proposals Registration</button><br/><br/>
-        <button type="button" class="btn btn-secondary btn-lg"  onClick={startVotingSession}>Start Voting Session</button><br/><br/>
-        <button type="button" class="btn btn-secondary btn-lg"  onClick={endVotingSession}>End Voting Session</button><br/><br/>
-        <button type="button" class="btn btn-secondary btn-lg"  onClick={tallyVotes}>Tally Votes</button><br/><br/>
-        <h3 class="display-5">Adresses enregistrées :</h3>
-        <ul>
-          {addressRegistered.map((votant) => (
+      <br />
+      <button type="button" className="btn btn-secondary btn-lg" onClick={startProposalsRegistering}>Start Proposals Registration</button><br /><br />
+      <button type="button" className="btn btn-secondary btn-lg" onClick={endProposalsRegistering}>End Proposals Registration</button><br /><br />
+      <button type="button" className="btn btn-secondary btn-lg" onClick={startVotingSession}>Start Voting Session</button><br /><br />
+      <button type="button" className="btn btn-secondary btn-lg" onClick={endVotingSession}>End Voting Session</button><br /><br />
+      <button type="button" className="btn btn-secondary btn-lg" onClick={tallyVotes}>Tally Votes</button><br /><br />
+      <h3 className="display-5">Adresses enregistrées :</h3>
+      <ul>
+        {addressRegistered.map((votant) => (
           <li key={votant.adresse}>{votant.adresse}</li>
         ))}
-        </ul>
-        
-      
-  </>
+      </ul>
+
+
+    </>
   )
 };
 

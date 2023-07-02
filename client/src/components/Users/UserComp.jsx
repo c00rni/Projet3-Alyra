@@ -83,8 +83,6 @@ function UserComp() {
           setEventValue(oldiEventProposal);
         })
 
-      // Vote
-
       await contract.events.Voted({ fromBlock: "latest" })
         .on('data', event => {
           alert(`Vote accepté pour la proposition ${event.returnValues.proposalId}`);
@@ -97,7 +95,11 @@ function UserComp() {
           let lesevents = status[event.returnValues.newStatus];
           setWorkflowEvent(lesevents);
         })
+    })();
+  },)// [contract, status]
 
+  useEffect(() => {
+    (async function () {
       // Get Gagnant  
       await contract.events.WinnerAnnonced({ fromBlock: "latest" })
         .on('data', event => {
@@ -105,7 +107,7 @@ function UserComp() {
           setPropositionGagante(WinnerAnnonced);
         })
     })();
-  }, [contract])
+  },)
 
   const registerProposal = async () => {
     try {
@@ -132,16 +134,16 @@ function UserComp() {
       <h3 className="display-5">Le status du vote est :{WorkflowEvent}</h3>
       <br />
       <div className="input-group input-group-lg">
-        <div class="input-group-prepend">
-          <button onClick={registerProposal}><span class="input-group-text" id="inputGroup-sizing-lg">Proposer</span></button>
+        <div className="input-group-prepend">
+          <button onClick={registerProposal}><span className="input-group-text" id="inputGroup-sizing-lg">Proposer</span></button>
         </div>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           aria-label="Sizing example input"
           aria-describedby="inputGroup-sizing-lg"
           placeholder="Description de la proposition"
-          value={proposalDescription}
+          defaultValue={proposalDescription}
           onChange={handleTextChangeProposition} />
       </div>
       <br />
@@ -163,15 +165,15 @@ function UserComp() {
       <h3 className="display-5">Vote:</h3>
       <div className="input-group input-group-lg">
         <div className="input-group-prepend">
-          <button onClick={vote}><span class="input-group-text" id="inputGroup-sizing-lg">voter</span></button>
+          <button onClick={vote}><span className="input-group-text" id="inputGroup-sizing-lg">voter</span></button>
         </div>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           aria-label="Sizing example input"
           aria-describedby="inputGroup-sizing-lg"
           placeholder="Chiosissez votre proposition"
-          value={voteSoumis}
+          defaultValue={voteSoumis}
           onChange={handleVoteChange} />
       </div>
       <br />
@@ -193,11 +195,11 @@ function UserComp() {
       <h3 className="display-5">Le gagnant est :</h3>
       <input
         type="text"
-        class="form-control"
+        className="form-control"
         aria-label="Sizing example input"
         aria-describedby="inputGroup-sizing-lg"
         placeholder="Le nom du gagnant"
-        value={propositionGagnante}
+        defaultValue={propositionGagnante}
       />
 
 

@@ -1,7 +1,7 @@
 function Welcome() {
   return (
     <div className="welcome">
-      <h1 class="display-3">Projet Voting</h1>
+      <h1 className="display-3">Projet Voting</h1>
     </div>
   );
 }
