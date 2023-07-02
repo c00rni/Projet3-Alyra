@@ -10,7 +10,7 @@ Application decentraliser permetant d'administrer et particier à un vote.
 - [x] Optimisation du contrat grace au evenement
 - [ ] Realiser le front en React
   - [x] Créer les composants de l'administrateur
-  - [ ] Créer les composants des votants
+  - [x] Créer les composants des votants
   - [ ] Afficher les compostant des votants s'ils sont l'adresses publique de l'uitilisateur est valide
   - [ ] Afficher les compostant de l'administreur si l'adresse publique de l'uitilisateur est valide
   - [x] Afficher tous les propositions enregistrer grace aux events
