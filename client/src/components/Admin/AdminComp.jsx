@@ -4,19 +4,8 @@ import React, { useState, useEffect } from "react";
 function AdminComp() {
   const { state: { contract, accounts } } = useEth();
   const [addressVoter, setVoter] = useState("");
-  const [addressRegistered, setRegistrationEvents] = useState([]);
-
-
-  useEffect(() => {
-    (async function () {
-      let votants = [];
-      await contract.events.VoterRegistered({ fromBlock: "earliest" })
-        .on('data', event => {
-          votants.push({ adresse: event.returnValues.voterAddress });
-          setRegistrationEvents(votants);
-        })
-    })();
-  },)//[contract]
+  const [oldAddressRegistered, setOldEvents] = useState([]);
+  const [addressRegistered, setRegisteredEvents] = useState([]);
 
   useEffect(() => {
     (async function () {
@@ -28,9 +17,16 @@ function AdminComp() {
       oldEvents.forEach(event => {
         votants.push({ adresse: event.returnValues.voterAddress });
       });
-      setRegistrationEvents(votants);
+      setOldEvents(votants);
+
+      let newVotant = [];
+      let newEvents = await contract.events.VoterRegistered({ fromBlock: "earliest" });
+      newEvents.forEach(event => {
+        newVotant.push({ adresse: event.returnValues.voterAddress });
+      });
+      setRegisteredEvents(newVotant);
     })();
-  },)//[contract]
+  },)
 
   const handleRegristrationTextChange = e => {
     setVoter(e.target.value);
@@ -121,6 +117,9 @@ function AdminComp() {
       <button type="button" className="btn btn-secondary btn-lg" onClick={tallyVotes}>Tally Votes</button><br /><br />
       <h3 className="display-5">Adresses enregistrées :</h3>
       <ul>
+        {oldAddressRegistered.map((votant) => (
+          <li key={votant.adresse}>{votant.adresse}</li>
+        ))}
         {addressRegistered.map((votant) => (
           <li key={votant.adresse}>{votant.adresse}</li>
         ))}

@@ -96,18 +96,16 @@ function UserComp() {
           setWorkflowEvent(lesevents);
         })
     })();
-  },)// [contract, status]
 
-  useEffect(() => {
     (async function () {
       // Get Gagnant  
-      await contract.events.WinnerAnnonced({ fromBlock: "latest" })
+      await contract.events.WinnerAnnonced({ fromBlock: "earliest" })
         .on('data', event => {
           let WinnerAnnonced = event.returnValues.proposal;
           setPropositionGagante(WinnerAnnonced);
         })
     })();
-  },)
+  }, [contract])
 
   const registerProposal = async () => {
     try {
