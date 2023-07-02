@@ -6,7 +6,7 @@ function UserComp() {
   const [proposalDescription, setProposal] = useState("");
   const [voteSoumis, setVoteId] = useState("");
   const [proposalEvents, setEventValue] = useState([]);
-  const [propositionGagnante, setPropositionGagante] = useState("PAS ENCORE DE GAGNANT");
+  const [propositionGagnante, setPropositionGagante] = useState("Pas encore de gagnant");
 
   const [WorkflowEvent, setWorkflowEvent] = useState();
 
@@ -127,32 +127,79 @@ function UserComp() {
 
   return (
     <div>
-      <h2>Voting Page (Status:{WorkflowEvent})</h2>
-
-      <button onClick={registerProposal}>Proposer</button>
+      <h2 class="display-5">Voting Page </h2>
+      <hr />
+      <h3 class="display-5">Le status du vote est :{WorkflowEvent}</h3>
+      <br />
+      <div class="input-group input-group-lg">
+        <div class="input-group-prepend">
+          <button onClick={registerProposal}><span class="input-group-text" id="inputGroup-sizing-lg">Proposer</span></button>
+        </div>
+        <input 
+            type="text" 
+            class="form-control" 
+            aria-label="Sizing example input" 
+            aria-describedby="inputGroup-sizing-lg"
+            placeholder="Description de la proposition"
+            value={proposalDescription}
+            onChange={handleTextChangeProposition}            />
+          </div>
+          <br />
+      {/* <button onClick={registerProposal}>Proposer</button>
       <input
         type="text"
         placeholder="Description de la proposition"
         value={proposalDescription}
         onChange={handleTextChangeProposition}
-      />
+      /> */}
 
-      <h3>Proposals:</h3>
+      {/* <h3 class="display-5">Proposals:</h3>
       <ul>
         {proposalEvents.map((event) => (
           <li key={event.id}>ID:{event.id} - {event.description}</li>
         ))}
-      </ul>
+      </ul> */}
 
-      <h3>Vote:</h3>
-      <button onClick={vote}>Vote</button>
+      <h3 class="display-5">Vote:</h3>
+      <div class="input-group input-group-lg">
+        <div class="input-group-prepend">
+          <button onClick={vote}><span class="input-group-text" id="inputGroup-sizing-lg">voter</span></button>
+        </div>
+        <input 
+            type="text" 
+            class="form-control" 
+            aria-label="Sizing example input" 
+            aria-describedby="inputGroup-sizing-lg"
+            placeholder="Chiosissez votre proposition"
+            value={voteSoumis}
+            onChange={handleVoteChange}            />
+          </div>
+          <br />
+      
+      {/* <button onClick={vote}>Vote</button>
       <input
         type="text"
         placeholder="Enter Proposal ID"
         value={voteSoumis}
         onChange={handleVoteChange}
-      />
-       <h3>Gagnant:{propositionGagnante}</h3>
+      /> */}
+      <h3 class="display-5">Proposals:</h3>
+      <br />
+      <ul>
+        {proposalEvents.map((event) => (
+          <li key={event.id}>ID:{event.id} - {event.description}</li>
+        ))}
+      </ul>
+       <h3 class="display-5">Le gagnant est :</h3>
+       <input 
+            type="text" 
+            class="form-control" 
+            aria-label="Sizing example input" 
+            aria-describedby="inputGroup-sizing-lg"
+            placeholder="Le nom du gagnant"
+            value={propositionGagnante}
+                      />
+       
       
     </div>
   );
