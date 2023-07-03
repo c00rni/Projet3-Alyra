@@ -14,10 +14,10 @@ Application decentraliser permetant d'administrer et particier à un vote.
   - [ ] Afficher les compostant des votants s'ils sont l'adresses publique de l'uitilisateur est valide
   - [ ] Afficher les compostant de l'administreur si l'adresse publique de l'uitilisateur est valide
   - [x] Afficher tous les propositions enregistrer grace aux events
-  - [ ] Afficher tous les votant enregistrer grace aux events
+  - [x] Afficher tous les votant enregistrer grace aux events
   - [x] Travaille l'esthétique du front
 - [x] Faire une video de presentation de l'applicaiton de 5 mins sur ganache
-- [ ] Deployer l'application sur un réseau de test
+- [] Deployer l'application sur un réseau de test
 - [x] Faire un readme contenenant un lien vers l'application deploiyé et la video
 
 ## Installation
