@@ -102,12 +102,6 @@ function AdminComp() {
           onChange={handleRegristrationTextChange}
         />
 
-        {/* <button onClick={registerVoter}>Register Voter</button>
-      <input
-        type="text"
-        placeholder="address"
-        onChange={handleRegristrationTextChange}
-      /><br></br> */}
       </div>
       <br />
       <button type="button" className="btn btn-secondary btn-lg" onClick={startProposalsRegistering}>Start Proposals Registration</button><br /><br />

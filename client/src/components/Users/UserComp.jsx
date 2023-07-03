@@ -145,21 +145,6 @@ function UserComp() {
           onChange={handleTextChangeProposition} />
       </div>
       <br />
-      {/* <button onClick={registerProposal}>Proposer</button>
-      <input
-        type="text"
-        placeholder="Description de la proposition"
-        value={proposalDescription}
-        onChange={handleTextChangeProposition}
-      /> */}
-
-      {/* <h3 class="display-5">Proposals:</h3>
-      <ul>
-        {proposalEvents.map((event) => (
-          <li key={event.id}>ID:{event.id} - {event.description}</li>
-        ))}
-      </ul> */}
-
       <h3 className="display-5">Vote:</h3>
       <div className="input-group input-group-lg">
         <div className="input-group-prepend">
@@ -175,14 +160,6 @@ function UserComp() {
           onChange={handleVoteChange} />
       </div>
       <br />
-
-      {/* <button onClick={vote}>Vote</button>
-      <input
-        type="text"
-        placeholder="Enter Proposal ID"
-        value={voteSoumis}
-        onChange={handleVoteChange}
-      /> */}
       <h3 className="display-5">Proposals:</h3>
       <br />
       <ul>
